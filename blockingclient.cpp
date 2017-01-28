@@ -124,10 +124,10 @@ BlockingClient::BlockingClient(QWidget *parent)
     scene1->addRect(0,0, 250,250);
 
     thread.getScene(scene1);
-    mainLayout->addWidget(plane_choose,0,15,Qt::AlignTop|Qt::AlignRight);
-    mainLayout->addWidget(surface1Label,1,15);
-    mainLayout->addWidget(surface2Label,2,15);
-    mainLayout->addWidget(volume,3,15);
+    mainLayout->addWidget(plane_choose,0,18,Qt::AlignTop|Qt::AlignRight);
+    mainLayout->addWidget(surface1Label,1,18);
+    mainLayout->addWidget(surface2Label,2,18);
+    mainLayout->addWidget(volume,3,18);
     setLayout(mainLayout);
     qDebug() << plane_choose->currentIndex();
     setWindowTitle(tr("Scanner"));
@@ -287,6 +287,14 @@ void BlockingClient::drawLine()
         }else {
             vol = sum1 * sum2/length;
         }
+        QString label;
+        label = "PLANE: "+ QString::number(sum1) +" cm^2";
+        surface1Label->setText(label);
+        label = "SECTION: "+ QString::number(sum2) + " cm^2";
+        surface2Label->setText(label);
+        label = "DVOLUME: "+ QString::number(vol)+ " cm^3";
+        volume->setText(label);
+
         qDebug() << xlen << ylen << length << vol <<"SUM1" << sum1;
 
     }
