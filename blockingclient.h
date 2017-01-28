@@ -84,8 +84,10 @@ private slots:
     void drawPlane();
     void fDraw();
     void clr();
-
+    void drawCursors();
 private:
+
+    bool state = false;
 
     QLabel *statusLabel;
     QLabel *surface1Label;
@@ -95,6 +97,7 @@ private:
 
     QPushButton *getFortuneButton;
     QPushButton *quitButton;
+    QPushButton *cursorToggle;
     QDialogButtonBox *buttonBox;
 
     std::vector<QGraphicsItem*>rects;
@@ -111,7 +114,7 @@ private:
     QGraphicsEllipseItem *cursor1;
     QGraphicsEllipseItem *cursor2;
     void CursorInit(int x1,int y1,int x2, int y2);
-
+    void RemoveCursors();
 
     FortuneThread thread;
     QString currentFortune;

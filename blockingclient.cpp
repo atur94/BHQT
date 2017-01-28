@@ -87,18 +87,20 @@ BlockingClient::BlockingClient(QWidget *parent)
 
     quitButton = new QPushButton(tr("Quit"));
     drawButton = new QPushButton(tr("Draw"));
-
+    cursorToggle = new QPushButton(tr("Toggle Cursors"));
 
 
     buttonBox = new QDialogButtonBox;
     buttonBox->addButton(getFortuneButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
     buttonBox->addButton(drawButton,  QDialogButtonBox::ActionRole);
+    buttonBox->addButton(cursorToggle,  QDialogButtonBox::ActionRole);
+
     connect(getFortuneButton, SIGNAL(clicked()), this, SLOT(requestNewFortune()));
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
     connect(plane_choose, SIGNAL(activated(int)), this, SLOT(whatPlane()));
     connect(drawButton, SIGNAL(clicked()), this, SLOT(drawPlane()));
-
+    connect(cursorToggle, SIGNAL(clicked()), this, SLOT(drawCursors()));
 
 
 
@@ -126,7 +128,6 @@ BlockingClient::BlockingClient(QWidget *parent)
     mainLayout->addWidget(surface2Label,2,15);
     mainLayout->addWidget(volume,3,15);
     setLayout(mainLayout);
-    CursorInit(10, 10, 100, 10);
     qDebug() << plane_choose->currentIndex();
     setWindowTitle(tr("Scanner"));
 //    portLineEdit->setFocus();
@@ -228,7 +229,7 @@ void BlockingClient::fDraw(){
         scene1->clear();
 
         scene1->update(0,0,250,250);
-
+        CursorInit(10, 10, 100, 10);
         thread.getData(drawXY1);
         qDebug() << "IT might work";
         thread.DrawPlane(drawXY1);
@@ -238,6 +239,17 @@ void BlockingClient::clr(){
     thread.clearTab();
 }
 
+void BlockingClient::drawCursors()
+{
+    state = !state;
+    if(!state){
+        RemoveCursors();
+    }else {
+        CursorInit(10, 10, 100, 10);
+    }
+
+}
+
 void BlockingClient::CursorInit(int x1,int y1,int x2, int y2)
 {
     QPen black(Qt::black);
@@ -245,6 +257,15 @@ void BlockingClient::CursorInit(int x1,int y1,int x2, int y2)
     cursor2 = scene1->addEllipse(x2, y2, 5, 5, black);
     cursor1->setFlag(QGraphicsItem::ItemIsMovable);
     cursor2->setFlag(QGraphicsItem::ItemIsMovable);
+
+    //WYEMITOWAĆ SYGNAŁ
+    //RYSOWAĆ LINIE
+}
+
+void BlockingClient::RemoveCursors()
+{
+    delete cursor1;
+    delete cursor2;
 }
 
 
