@@ -54,15 +54,16 @@
 #include "blockingclient.h"
 #include <QGraphicsView>
 #include <QGraphicsSceneMoveEvent>
-static int drawXY0[250][250] = {0};
-static int drawXY1[250][250] = {0};
+
+static int drawXY0[ARRAYH][ARRAYW] = {0};
+static int drawXY1[ARRAYH][ARRAYW] = {0};
 
 BlockingClient::BlockingClient(QWidget *parent)
     : QWidget(parent)
     , scene1(new QGraphicsScene())
-    , mouse(new QGraphicsSceneMouseEvent())
 
 {
+
     // KONFIGURACJA
     disp1 = new QGraphicsView(parent);
     disp1->setGeometry(QRect(300, 30, 300, 300));
@@ -88,6 +89,7 @@ BlockingClient::BlockingClient(QWidget *parent)
     drawButton = new QPushButton(tr("Draw"));
 
 
+
     buttonBox = new QDialogButtonBox;
     buttonBox->addButton(getFortuneButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
@@ -96,6 +98,8 @@ BlockingClient::BlockingClient(QWidget *parent)
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
     connect(plane_choose, SIGNAL(activated(int)), this, SLOT(whatPlane()));
     connect(drawButton, SIGNAL(clicked()), this, SLOT(drawPlane()));
+
+
 
 
     connect(&thread, SIGNAL(newFortune(QString)),
@@ -122,6 +126,7 @@ BlockingClient::BlockingClient(QWidget *parent)
     mainLayout->addWidget(surface2Label,2,15);
     mainLayout->addWidget(volume,3,15);
     setLayout(mainLayout);
+    CursorInit(10, 10, 100, 10);
     qDebug() << plane_choose->currentIndex();
     setWindowTitle(tr("Scanner"));
 //    portLineEdit->setFocus();
@@ -179,8 +184,10 @@ void BlockingClient::whatPlane(){
 void BlockingClient::drawPlane(){
     //FUNKCJA WYWOLYWANA PO ODEBRANIU WSZYSTKICH DANYCH LUB PO KLIKNIECIU PRZYCISKU DRAW
     QList<QGraphicsItem*> allGraphicsItems = scene1->items();
+
     allGraphicsItems.clear();
     scene1->clear();
+
     scene1->update(0,0,250,250);
     int licz = 0;
     switch(plane_choose->currentIndex()){
@@ -209,6 +216,7 @@ void BlockingClient::fDraw(){
             scene1->addRect(i,j,0,0);
         }
     }
+
     if(plane_choose->currentIndex() == 0){
         scene1->clear();
         scene1->update(0,0,250,250);
@@ -216,8 +224,11 @@ void BlockingClient::fDraw(){
         qDebug() << "IT might work";
         thread.DrawPlane(drawXY0);
     }else{
+
         scene1->clear();
+
         scene1->update(0,0,250,250);
+
         thread.getData(drawXY1);
         qDebug() << "IT might work";
         thread.DrawPlane(drawXY1);
@@ -226,3 +237,14 @@ void BlockingClient::fDraw(){
 void BlockingClient::clr(){
     thread.clearTab();
 }
+
+void BlockingClient::CursorInit(int x1,int y1,int x2, int y2)
+{
+    QPen black(Qt::black);
+    cursor1 = scene1->addEllipse(x1, y1, 5, 5, black);
+    cursor2 = scene1->addEllipse(x2, y2, 5, 5, black);
+    cursor1->setFlag(QGraphicsItem::ItemIsMovable);
+    cursor2->setFlag(QGraphicsItem::ItemIsMovable);
+}
+
+

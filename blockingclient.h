@@ -56,6 +56,7 @@
 #include "fortunethread.h"
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
+
 using namespace std;
 QT_BEGIN_NAMESPACE
 class QDialogButtonBox;
@@ -83,13 +84,13 @@ private slots:
     void drawPlane();
     void fDraw();
     void clr();
+
 private:
 
     QLabel *statusLabel;
     QLabel *surface1Label;
     QLabel *surface2Label;
     QLabel *volume;
-    QGraphicsSceneMouseEvent * mouse;
 
 
     QPushButton *getFortuneButton;
@@ -107,7 +108,9 @@ private:
     QComboBox *plane_choose;
 
     QGraphicsRectItem *rect;
-
+    QGraphicsEllipseItem *cursor1;
+    QGraphicsEllipseItem *cursor2;
+    void CursorInit(int x1,int y1,int x2, int y2);
 
 
     FortuneThread thread;

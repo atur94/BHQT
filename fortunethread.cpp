@@ -192,10 +192,10 @@ void FortuneThread::getScene(QGraphicsScene *scene){
     this->scene1 = scene;
 }
 
-void FortuneThread::DrawPlane(int xyPOS[250][250]){
+void FortuneThread::DrawPlane(int xyPOS[ARRAYH][ARRAYW]){
     qDebug() << "ENTERING DRAW FUNCTION";
-    for(int i = 0; i < 250; i++){
-        for(int j = 0; j < 250; j++){
+    for(int i = 0; i < ARRAYH; i++){
+        for(int j = 0; j < ARRAYW; j++){
             if(xyPOS[i][j] == 1 ) {
                 scene1->addRect(i,j,1,1);
             }else {
@@ -207,8 +207,8 @@ void FortuneThread::DrawPlane(int xyPOS[250][250]){
 }
 
 void FortuneThread::clearTab(){
-    for(int j = 0; j < 250; j++){
-        for (int k = 0; k < 250; k++){
+    for(int j = 0; j < ARRAYH; j++){
+        for (int k = 0; k < ARRAYW; k++){
             s->data[j][k] = 0;
 
          }
