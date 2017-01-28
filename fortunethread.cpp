@@ -62,6 +62,7 @@ FortuneThread::FortuneThread(QObject *parent)
     disp1 = new QGraphicsView();
     scene1 = new QGraphicsScene();
     dataBuffer = new Dataget();
+
     s = new dataStruct();
 }
 
@@ -106,7 +107,7 @@ void FortuneThread::run()
     QTcpSocket socket;
     gSocket = &socket;
     qint64 length;
-    int xyPOS[ARRAYH][ARRAYW] = {0};
+
     mutex.unlock();
 //! [6]
     while (1) {
@@ -180,8 +181,8 @@ void FortuneThread::plane2(){
     qDebug() << plane;
 }
 void FortuneThread::getData(int out[ARRAYH][ARRAYW]){
-    for(int j = 0; j < 250; j++){
-        for (int k = 0; k < 250; k++){
+    for(int j = 0; j < ARRAYH; j++){
+        for (int k = 0; k < ARRAYW; k++){
             out[j][k] = s->data[j][k];
 
          }

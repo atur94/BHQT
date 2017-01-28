@@ -132,6 +132,7 @@ BlockingClient::BlockingClient(QWidget *parent)
     qDebug() << plane_choose->currentIndex();
     setWindowTitle(tr("Scanner"));
 //    portLineEdit->setFocus();
+
 }
 
 //! [2]
@@ -223,6 +224,7 @@ void BlockingClient::fDraw(){
     if(plane_choose->currentIndex() == 0){
         scene1->clear();
         scene1->update(0,0,250,250);
+
         thread.getData(drawXY0);
         sum1 = thread.getPoints(drawXY0);
         qDebug() << "AREA1: " << sum1 << endl;
@@ -231,17 +233,11 @@ void BlockingClient::fDraw(){
 
         scene1->clear();
         scene1->update(0,0,250,250);
-        CursorInit(10, 10, 100, 10);
         thread.getData(drawXY1);
         sum2 = thread.getPoints(drawXY1);
         qDebug() << "AREA2: " << sum2 << endl;
         thread.DrawPlane(drawXY1);
-        if(!state) RemoveCursors();
-        else{
-            state = !state;
-            CursorInit(125, 125, 125, 125);
 
-        }
     }
 }
 void BlockingClient::clr(){
@@ -263,10 +259,10 @@ void BlockingClient::drawLine()
     QLineF line;
     if(!state){
     }else {
-        xc1 = cursor1->pos().x();
-        yc1 = cursor1->pos().y();
-        xc2 = cursor2->pos().x();
-        yc2 = cursor2->pos().y();
+        xc1 = cursor1->pos().x()+5;
+        yc1 = cursor1->pos().y()+5;
+        xc2 = cursor2->pos().x()+5;
+        yc2 = cursor2->pos().y()+5;
         line.setLine(xc1,yc1,xc2,yc2);
         line1->setLine(line);
 
@@ -295,7 +291,7 @@ void BlockingClient::drawLine()
         label = "DVOLUME: "+ QString::number(vol)+ " cm^3";
         volume->setText(label);
 
-        qDebug() << xlen << ylen << length << vol <<"SUM1" << sum1;
+        qDebug() << xc1 << yc1 << xc2 << yc2<<"LENGTH: "<< length << "VOL:"<< vol <<"SUM1:" << sum1;
 
     }
 }
@@ -305,9 +301,9 @@ void BlockingClient::CursorInit(int x1,int y1,int x2, int y2)
 
     QPen red(Qt::red);
     QPen black(Qt::black);
-    black.setWidth(2);
-    cursor1 = scene1->addEllipse(x1, y1, 5, 5, red);
-    cursor2 = scene1->addEllipse(x2, y2, 5, 5, black);
+    black.setWidth(1);
+    cursor1 = scene1->addEllipse(x1, y1, 10, 10, red);
+    cursor2 = scene1->addEllipse(x2, y2, 10, 10, black);
     cursor1->setFlag(QGraphicsItem::ItemIsMovable);
     cursor2->setFlag(QGraphicsItem::ItemIsMovable);
     line1 = scene1->addLine(x1,y1,x2,y2, red);

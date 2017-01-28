@@ -6,6 +6,12 @@
 Dataget::Dataget()
 {
     scene = new QGraphicsScene();
+    for(int i = 0; i < ARRAYW; i++){
+        for(int j = 0; j < ARRAYH; j++){
+            yxPOS[1][j] = 0;
+        }
+    }
+
 }
 
 void Dataget::setData(QString str){
@@ -81,10 +87,10 @@ void Dataget::printOut(){
         qDebug() << i << dataToCompute[i];
     }
 }
-void Dataget::getData(int out[250][250]){
+void Dataget::getData(int out[ARRAYH][ARRAYW]){
 
-    for(int i = 0; i < 250; i++){
-        for (int j = 0; j < 250; j++){
+    for(int i = 0; i < ARRAYH; i++){
+        for (int j = 0; j < ARRAYW; j++){
             out[i][j] = yxPOS[i][j];
          }
 
@@ -137,16 +143,16 @@ void Dataget::DrawPlane(){
 }
 
 
-void Dataget::fillPlane(int plane[250][250]){
+void Dataget::fillPlane(int plane[ARRAYH][ARRAYW]){
     int copy[250][250];
     int start = 0;
-    for(int q = 0; q < 250; q++) {
-        for(int w = 0; w < 250; w++){
+    for(int q = 0; q < ARRAYH; q++) {
+        for(int w = 0; w < ARRAYW; w++){
             copy[q][w] = plane[q][w];
             //Tablica pomocnicza ktora pomaga w porownywaniu pikseli bez jej nadpisywania
         }
     }
-    for(int i = 0; i < 250; i++) {
+    for(int i = 0; i < ARRAYW; i++) {
         if((start == 0) && 125>i){
             //Sprawdzanie początku i ustawienie punktu startowego
             if((plane[i][125])  ||(plane[i][124])
@@ -161,7 +167,7 @@ void Dataget::fillPlane(int plane[250][250]){
         }
 
         if(start == 1){
-            for(int j = 126; j < 250; j++){
+            for(int j = 126; j < ARRAYH; j++){
                 if((copy[i][j] == 1)||(copy[i+3][j] == 1)
                                     ||(copy[i-3][j] == 1)
                                     ||(copy[i-1][j] == 1)
@@ -187,8 +193,8 @@ void Dataget::fillPlane(int plane[250][250]){
     }
     start = 0;
 }
-void Dataget::tabClear(int tab[250][250]){
-    for(int i = 0; i < 250; i++)
-        for(int j = 0; j < 250; j++)
+void Dataget::tabClear(int tab[ARRAYH][ARRAYW]){
+    for(int i = 0; i < ARRAYH; i++)
+        for(int j = 0; j < ARRAYW; j++)
             tab[i][j] = 0;
 }
