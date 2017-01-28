@@ -78,11 +78,13 @@ public:
     void startScan();
     void plane1();
     void plane2();
+    void ToggleCursors();
     int plane;
-    void getData(int out[250][250]);
+    void getData(int out[ARRAYH][ARRAYW]);
     void getScene(QGraphicsScene * scene);
-    void DrawPlane(int xyPOS[250][250]);
+    void DrawPlane(int xyPOS[ARRAYH][ARRAYW]);
     void clearTab();
+    int getPoints(int area[ARRAYH][ARRAYW]);
 signals:
     void newFortune(const QString &fortune);
     void error(int socketError, const QString &message);
@@ -90,6 +92,8 @@ signals:
     void clrSig();
 
 private:
+    QGraphicsEllipseItem *cursor1;
+    QGraphicsEllipseItem *cursor2;
     QString hostName;
     quint16 port;
     QMutex mutex;

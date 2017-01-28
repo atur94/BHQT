@@ -110,6 +110,7 @@ void FortuneThread::run()
     mutex.unlock();
 //! [6]
     while (1) {
+
         const int Timeout = 1 * 1000;
 
 
@@ -144,6 +145,7 @@ void FortuneThread::run()
             in >> length;
             string = socket.readLine();          
             dataBuffer->setData(string);
+
         } while (1);
 
         mutex.lock();
@@ -177,7 +179,7 @@ void FortuneThread::plane2(){
     plane = 2;
     qDebug() << plane;
 }
-void FortuneThread::getData(int out[250][250]){
+void FortuneThread::getData(int out[ARRAYH][ARRAYW]){
     for(int j = 0; j < 250; j++){
         for (int k = 0; k < 250; k++){
             out[j][k] = s->data[j][k];
@@ -215,3 +217,17 @@ void FortuneThread::clearTab(){
 
     }
 }
+
+int FortuneThread::getPoints(int area[ARRAYH][ARRAYW])
+{
+    int areaSum = 0;
+    for(int i = 0; i < ARRAYH; i++){
+        for(int j = 0; j < ARRAYW; j++){
+            if(area[i][j] == 1){
+                areaSum++;
+            }
+        }
+    }
+    return areaSum;
+}
+

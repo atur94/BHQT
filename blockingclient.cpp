@@ -88,20 +88,21 @@ BlockingClient::BlockingClient(QWidget *parent)
     quitButton = new QPushButton(tr("Quit"));
     drawButton = new QPushButton(tr("Draw"));
     cursorToggle = new QPushButton(tr("Toggle Cursors"));
-
+    lineDraw = new QPushButton(tr("Line"));
 
     buttonBox = new QDialogButtonBox;
     buttonBox->addButton(getFortuneButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
     buttonBox->addButton(drawButton,  QDialogButtonBox::ActionRole);
     buttonBox->addButton(cursorToggle,  QDialogButtonBox::ActionRole);
+    buttonBox->addButton(lineDraw, QDialogButtonBox::ActionRole);
 
     connect(getFortuneButton, SIGNAL(clicked()), this, SLOT(requestNewFortune()));
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
     connect(plane_choose, SIGNAL(activated(int)), this, SLOT(whatPlane()));
     connect(drawButton, SIGNAL(clicked()), this, SLOT(drawPlane()));
     connect(cursorToggle, SIGNAL(clicked()), this, SLOT(drawCursors()));
-
+    connect(lineDraw, SIGNAL(clicked()), this, SLOT(drawLine()));
 
 
     connect(&thread, SIGNAL(newFortune(QString)),
@@ -111,7 +112,7 @@ BlockingClient::BlockingClient(QWidget *parent)
             this, SLOT(displayError(int,QString)));
     connect(&thread, SIGNAL(draw()), this, SLOT(fDraw()));
     connect(&thread, SIGNAL(clrSig()),this, SLOT(clr()));
-
+    connect(&thread, SIGNAL(cursorToggleSig()), this, SLOT(ToggleCursors()));
 
     QGridLayout *mainLayout = new QGridLayout;
 
@@ -190,7 +191,7 @@ void BlockingClient::drawPlane(){
     scene1->clear();
 
     scene1->update(0,0,250,250);
-    int licz = 0;
+
     switch(plane_choose->currentIndex()){
     case 0:
         qDebug() << "PLANE 1 CHOOSEN";
@@ -199,6 +200,7 @@ void BlockingClient::drawPlane(){
     case 1:
         qDebug() << "PLANE 2 CHOOSEN";
         thread.DrawPlane(drawXY1);
+
         break;
     case 3:
         //DEBUG
@@ -212,27 +214,34 @@ void BlockingClient::drawPlane(){
 
 }
 void BlockingClient::fDraw(){
-    for(int i = 0; i < 250; i++){
-        for(int j = 0; j < 250; j++){
-            scene1->addRect(i,j,0,0);
-        }
-    }
+//    for(int i = 0; i < 250; i++){
+//        for(int j = 0; j < 250; j++){
+//            scene1->addRect(i,j,0,0);
+//        }
+//    }
 
     if(plane_choose->currentIndex() == 0){
         scene1->clear();
         scene1->update(0,0,250,250);
         thread.getData(drawXY0);
-        qDebug() << "IT might work";
+        sum1 = thread.getPoints(drawXY0);
+        qDebug() << "AREA1: " << sum1 << endl;
         thread.DrawPlane(drawXY0);
     }else{
 
         scene1->clear();
-
         scene1->update(0,0,250,250);
         CursorInit(10, 10, 100, 10);
         thread.getData(drawXY1);
-        qDebug() << "IT might work";
+        sum2 = thread.getPoints(drawXY1);
+        qDebug() << "AREA2: " << sum2 << endl;
         thread.DrawPlane(drawXY1);
+        if(!state) RemoveCursors();
+        else{
+            state = !state;
+            CursorInit(125, 125, 125, 125);
+
+        }
     }
 }
 void BlockingClient::clr(){
@@ -245,19 +254,55 @@ void BlockingClient::drawCursors()
     if(!state){
         RemoveCursors();
     }else {
-        CursorInit(10, 10, 100, 10);
+        CursorInit(0, 0, 0, 0);
     }
+}
 
+void BlockingClient::drawLine()
+{
+    QLineF line;
+    if(!state){
+    }else {
+        xc1 = cursor1->pos().x();
+        yc1 = cursor1->pos().y();
+        xc2 = cursor2->pos().x();
+        yc2 = cursor2->pos().y();
+        line.setLine(xc1,yc1,xc2,yc2);
+        line1->setLine(line);
+
+        if(xc1 >= xc2){
+            xlen = xc1 - xc2;
+        }else{
+            xlen = xc2 - xc1;
+        }
+        if(yc1 >= yc2){
+            ylen = yc1 - yc2;
+        }else{
+            ylen = yc2 - yc1;
+        }
+        length = qSqrt(xlen * xlen + ylen * ylen);
+
+        if(sum2 == 0){
+            vol = sum1;
+        }else {
+            vol = sum1 * sum2/length;
+        }
+        qDebug() << xlen << ylen << length << vol <<"SUM1" << sum1;
+
+    }
 }
 
 void BlockingClient::CursorInit(int x1,int y1,int x2, int y2)
 {
+
+    QPen red(Qt::red);
     QPen black(Qt::black);
-    cursor1 = scene1->addEllipse(x1, y1, 5, 5, black);
+    black.setWidth(2);
+    cursor1 = scene1->addEllipse(x1, y1, 5, 5, red);
     cursor2 = scene1->addEllipse(x2, y2, 5, 5, black);
     cursor1->setFlag(QGraphicsItem::ItemIsMovable);
     cursor2->setFlag(QGraphicsItem::ItemIsMovable);
-
+    line1 = scene1->addLine(x1,y1,x2,y2, red);
     //WYEMITOWAĆ SYGNAŁ
     //RYSOWAĆ LINIE
 }

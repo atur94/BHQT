@@ -85,19 +85,24 @@ private slots:
     void fDraw();
     void clr();
     void drawCursors();
+    void drawLine();
 private:
 
     bool state = false;
-
+    int xc1,yc1,xc2,yc2;
+    int xlen, ylen;
+    int length;
     QLabel *statusLabel;
     QLabel *surface1Label;
     QLabel *surface2Label;
     QLabel *volume;
 
+    int sum1, sum2, vol;
 
     QPushButton *getFortuneButton;
     QPushButton *quitButton;
     QPushButton *cursorToggle;
+    QPushButton *lineDraw;
     QDialogButtonBox *buttonBox;
 
     std::vector<QGraphicsItem*>rects;
@@ -113,6 +118,7 @@ private:
     QGraphicsRectItem *rect;
     QGraphicsEllipseItem *cursor1;
     QGraphicsEllipseItem *cursor2;
+    QGraphicsLineItem *line1;
     void CursorInit(int x1,int y1,int x2, int y2);
     void RemoveCursors();
 
