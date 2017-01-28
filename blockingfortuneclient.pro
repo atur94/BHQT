@@ -3,7 +3,8 @@ QT += network widgets
 HEADERS       = blockingclient.h \
                 fortunethread.h \
                  dataget.h \
-    datastruct.h
+    datastruct.h \
+    defines.h
 SOURCES       = blockingclient.cpp \
                 main.cpp \
                 fortunethread.cpp \

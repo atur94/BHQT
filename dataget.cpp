@@ -22,8 +22,6 @@ void Dataget::setData(QString str){
         i++;
 
     }
-
-
 }
 
 
@@ -111,8 +109,6 @@ void Dataget::computeToXY(){
 //        yxPOS[int(2+x+125)][int(1+y+125)] = 1;
 //        yxPOS[int(2+x+125)][int(2+y+125)] = 1;
 
-
-
     }
     for(int i = 0; i < 250; i++){
         for (int j = 0; j < 250; j++){
@@ -146,12 +142,17 @@ void Dataget::fillPlane(int plane[250][250]){
     int start = 0;
     for(int q = 0; q < 250; q++) {
         for(int w = 0; w < 250; w++){
-            copy[q][w] = plane[q][w];           //Tablica pomocnicza ktora pomaga w porownywaniu pikseli bez jej nadpisywania
+            copy[q][w] = plane[q][w];
+            //Tablica pomocnicza ktora pomaga w porownywaniu pikseli bez jej nadpisywania
         }
     }
     for(int i = 0; i < 250; i++) {
         if((start == 0) && 125>i){
-            if((plane[i][125])||(plane[i][124])||(plane[i][123])||(plane[i][126])||(plane[i][127])) //Sprawdzanie początku i ustawienie punktu startowego
+            //Sprawdzanie początku i ustawienie punktu startowego
+            if((plane[i][125])  ||(plane[i][124])
+                                ||(plane[i][123])
+                                ||(plane[i][126])
+                                ||(plane[i][127]))
                 start = !start;
         }
         if((start == 1) && 125<=i ){
@@ -161,13 +162,23 @@ void Dataget::fillPlane(int plane[250][250]){
 
         if(start == 1){
             for(int j = 126; j < 250; j++){
-                if((copy[i][j] == 1)||(copy[i+3][j] == 1)||(copy[i-3][j] == 1)||(copy[i-1][j] == 1)||(copy[i+1][j] == 1)||(copy[i+2][j] == 1)||(copy[i-2][j] == 1)){
+                if((copy[i][j] == 1)||(copy[i+3][j] == 1)
+                                    ||(copy[i-3][j] == 1)
+                                    ||(copy[i-1][j] == 1)
+                                    ||(copy[i+1][j] == 1)
+                                    ||(copy[i+2][j] == 1)
+                                    ||(copy[i-2][j] == 1)){
                     break;
                 }
                 plane[i][j] = 1;
             }
             for(int j = 125; j > 0; j--){
-                if((copy[i][j] == 1)||(copy[i+3][j] == 1)||(copy[i-3][j] == 1)||(copy[i-1][j] == 1)||(copy[i+1][j] == 1)||(copy[i+2][j] == 1)||(copy[i-2][j] == 1)){
+                if((copy[i][j] == 1)||(copy[i+3][j] == 1)
+                                    ||(copy[i-3][j] == 1)
+                                    ||(copy[i-1][j] == 1)
+                                    ||(copy[i+1][j] == 1)
+                                    ||(copy[i+2][j] == 1)
+                                    ||(copy[i-2][j] == 1)){
                     break;
                 }
                 plane[i][j] = 1;

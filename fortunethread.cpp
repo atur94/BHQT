@@ -53,6 +53,7 @@
 #include "fortunethread.h"
 #include "dataget.h"
 #include "datastruct.h"
+#include "defines.h"
 
 FortuneThread::FortuneThread(QObject *parent)
     : QThread(parent), quit(false)
@@ -105,7 +106,7 @@ void FortuneThread::run()
     QTcpSocket socket;
     gSocket = &socket;
     qint64 length;
-    int xyPOS[250][250] = {0};
+    int xyPOS[ARRAYH][ARRAYW] = {0};
     mutex.unlock();
 //! [6]
     while (1) {
@@ -138,16 +139,11 @@ void FortuneThread::run()
                 emit error(socket.error(), socket.errorString());
                 return;
             }
-
             in.startTransaction();
             in >> fortune;
             in >> length;
-            string = socket.readLine();
-
+            string = socket.readLine();          
             dataBuffer->setData(string);
-
-
-
         } while (1);
 
         mutex.lock();

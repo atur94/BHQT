@@ -63,7 +63,7 @@ BlockingClient::BlockingClient(QWidget *parent)
     , mouse(new QGraphicsSceneMouseEvent())
 
 {
-
+    // KONFIGURACJA
     disp1 = new QGraphicsView(parent);
     disp1->setGeometry(QRect(300, 30, 300, 300));
     disp1->setMaximumSize(QSize(300, 300));
@@ -177,26 +177,7 @@ void BlockingClient::whatPlane(){
 
 }
 void BlockingClient::drawPlane(){
-//    static int i = 0;
-
-//    if(i == 0)rect = scene1->addRect(i,i,1,1);
-
-//    QList<QGraphicsItem*> allGraphicsItems = scene1->items();
-//    allGraphicsItems.at(0)->setPos(i,i);
-//    i+=5;
-//    if(i>250) i =0;
-//    if(i>50) scene1->clear();
-//    scene1->update(0,0,250,250);
-//    allGraphicsItems.clear();
-
-
-//    for(int i = 0; i < 250; i++){
-//        for(int j = 0; j < 250; j++){
-//            scene1->addRect(i,j,0,0);
-
-//        }
-
-//    }
+    //FUNKCJA WYWOLYWANA PO ODEBRANIU WSZYSTKICH DANYCH LUB PO KLIKNIECIU PRZYCISKU DRAW
     QList<QGraphicsItem*> allGraphicsItems = scene1->items();
     allGraphicsItems.clear();
     scene1->clear();
