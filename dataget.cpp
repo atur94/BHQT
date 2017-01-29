@@ -98,8 +98,7 @@ void Dataget::getData(int out[ARRAYH][ARRAYW]){
 }
 void Dataget::computeToXY(){
     float x,y;
-
-
+    float xLast, yLast;
     for(int angle = 0; angle < 360; angle++){
         x = qCos(qDegreesToRadians(float(angle)))*dataToCompute[angle];
         y = qSin(qDegreesToRadians(float(angle)))*dataToCompute[angle];
@@ -107,14 +106,47 @@ void Dataget::computeToXY(){
         y = qRound(y);
         yxPOS[int(x+125)][int(y+125)] = 1;
         yxPOS[int(x+125)][int(1+y+125)] = 1;
-//        yxPOS[int(x+125)][int(2+y+125)] = 1;
-        yxPOS[int(1+x+125)][int(y+125)] = 1;
-        yxPOS[int(1+x+125)][int(1+y+125)] = 1;
+        yxPOS[int(x+125)][int(2+y+125)] = 1;
+        yxPOS[int(x+125)][int(3+y+125)] = 1;
+                yxPOS[int(x+125)][int(4+y+125)] = 1;
+                        yxPOS[int(x+125)][int(5+y+125)] = 1;
+                                yxPOS[int(x+125)][int(6+y+125)] = 1;
+ //       yxPOS[int(1+x+125)][int(y+125)] = 1;
+//        yxPOS[int(1+x+125)][int(1+y+125)] = 1;
 //        yxPOS[int(1+x+125)][int(2+y+125)] = 1;
-//        yxPOS[int(2+x+125)][int(y+125)] = 1;
+//        yxPOS[int(1+x+125)][int(3+y+125)] = 1;
+ //       yxPOS[int(2+x+125)][int(y+125)] = 1;
 //        yxPOS[int(2+x+125)][int(1+y+125)] = 1;
 //        yxPOS[int(2+x+125)][int(2+y+125)] = 1;
+//        yxPOS[int(2+x+125)][int(3+y+125)] = 1;
+//        yxPOS[int(3+x+125)][int(y+125)] = 1;
+//        yxPOS[int(3+x+125)][int(1+y+125)] = 1;
+//        yxPOS[int(3+x+125)][int(2+y+125)] = 1;
+//        yxPOS[int(3+x+125)][int(3+y+125)] = 1;
+//        if(angle >= 1){
+//            if(xLast >= x){
+//                for(int q = xLast; q <= int (x); q++){
+//                    yxPOS[q][int(y)] = 1;
+//                }
+//            }else{
+//                for(int q =  int (x); q <= int (xLast); q++){
+//                    yxPOS[q][int(y)] = 1;
+//                }
+//            }
 
+//            if(yLast >= y){
+//                for(int q = y; q <= int(yLast); q++){
+//                    yxPOS[int(x)][q] = 1;
+//                }
+//            }else{
+//                for(int q = yLast; q <= int(y); q++){
+//                    yxPOS[int(x)][q] = 1;
+//                }
+//            }
+
+ //       }
+//        xLast = x;
+//        yLast = y;
     }
     for(int i = 0; i < 250; i++){
         for (int j = 0; j < 250; j++){
