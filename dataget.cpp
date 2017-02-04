@@ -108,9 +108,9 @@ void Dataget::computeToXY(){
         yxPOS[int(x+125)][int(1+y+125)] = 1;
         yxPOS[int(x+125)][int(2+y+125)] = 1;
         yxPOS[int(x+125)][int(3+y+125)] = 1;
-                yxPOS[int(x+125)][int(4+y+125)] = 1;
-                        yxPOS[int(x+125)][int(5+y+125)] = 1;
-                                yxPOS[int(x+125)][int(6+y+125)] = 1;
+        yxPOS[int(x+125)][int(4+y+125)] = 1;
+        yxPOS[int(x+125)][int(5+y+125)] = 1;
+        yxPOS[int(x+125)][int(y+125-1)] = 1;
  //       yxPOS[int(1+x+125)][int(y+125)] = 1;
 //        yxPOS[int(1+x+125)][int(1+y+125)] = 1;
 //        yxPOS[int(1+x+125)][int(2+y+125)] = 1;

@@ -89,6 +89,7 @@ BlockingClient::BlockingClient(QWidget *parent)
     drawButton = new QPushButton(tr("Draw"));
     cursorToggle = new QPushButton(tr("Toggle Cursors"));
     lineDraw = new QPushButton(tr("Line"));
+    debug = new QPushButton(tr("Debug"));
 
     buttonBox = new QDialogButtonBox;
     buttonBox->addButton(getFortuneButton, QDialogButtonBox::ActionRole);
@@ -96,6 +97,7 @@ BlockingClient::BlockingClient(QWidget *parent)
     buttonBox->addButton(drawButton,  QDialogButtonBox::ActionRole);
     buttonBox->addButton(cursorToggle,  QDialogButtonBox::ActionRole);
     buttonBox->addButton(lineDraw, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(debug, QDialogButtonBox::ActionRole);
 
     connect(getFortuneButton, SIGNAL(clicked()), this, SLOT(requestNewFortune()));
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
@@ -103,7 +105,7 @@ BlockingClient::BlockingClient(QWidget *parent)
     connect(drawButton, SIGNAL(clicked()), this, SLOT(drawPlane()));
     connect(cursorToggle, SIGNAL(clicked()), this, SLOT(drawCursors()));
     connect(lineDraw, SIGNAL(clicked()), this, SLOT(drawLine()));
-
+    connect(debug, SIGNAL(clicked()), this, SLOT(debugMode()));
 
     connect(&thread, SIGNAL(newFortune(QString)),
             this, SLOT(showFortune(QString)));
@@ -112,7 +114,7 @@ BlockingClient::BlockingClient(QWidget *parent)
             this, SLOT(displayError(int,QString)));
     connect(&thread, SIGNAL(draw()), this, SLOT(fDraw()));
     connect(&thread, SIGNAL(clrSig()),this, SLOT(clr()));
-    connect(&thread, SIGNAL(cursorToggleSig()), this, SLOT(ToggleCursors()));
+
 
     QGridLayout *mainLayout = new QGridLayout;
 
@@ -294,6 +296,11 @@ void BlockingClient::drawLine()
         qDebug() << xc1 << yc1 << xc2 << yc2<<"LENGTH: "<< length << "VOL:"<< vol <<"SUM1:" << sum1;
 
     }
+}
+
+void BlockingClient::debugMode()
+{
+    qDebug() << "DebugMode" << endl;
 }
 
 void BlockingClient::CursorInit(int x1,int y1,int x2, int y2)

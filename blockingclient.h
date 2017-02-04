@@ -86,6 +86,7 @@ private slots:
     void clr();
     void drawCursors();
     void drawLine();
+    void debugMode();
 private:
 
     bool state = false;
@@ -104,6 +105,7 @@ private:
     QPushButton *cursorToggle;
     QPushButton *lineDraw;
     QDialogButtonBox *buttonBox;
+    QPushButton *debug;
 
     std::vector<QGraphicsItem*>rects;
     QRect *display1;
