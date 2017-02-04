@@ -2,7 +2,7 @@
 #include "QWidget"
 #include <string.h>
 #include "QtWidgets"
-
+#include <QVector>
 Dataget::Dataget()
 {
     scene = new QGraphicsScene();
@@ -96,41 +96,152 @@ void Dataget::getData(int out[ARRAYH][ARRAYW]){
 
     }
 }
+void Dataget::drawPoint(int tab[ARRAYH][ARRAYW], int x, int y)
+{
+    tab[x][y] = 1;
+}
+
+points Dataget::setHistoryPoint(points &cords)
+{
+    return cords;
+}
+
+void Dataget::drawLine(int tab[ARRAYH][ARRAYW], const int x1, int y1, const int x2, const int y2) {
+    // zmienne pomocnicze
+    int d, dx, dy, ai, bi, xi, yi;
+    int x = x1, y = y1;
+    // ustalenie kierunku rysowania
+    if (x1 < x2)
+    {
+        xi = 1;
+        dx = x2 - x1;
+    }
+    else
+    {
+        xi = -1;
+        dx = x1 - x2;
+    }
+    // ustalenie kierunku rysowania
+    if (y1 < y2)
+    {
+        yi = 1;
+        dy = y2 - y1;
+    }
+    else
+    {
+        yi = -1;
+        dy = y1 - y2;
+    }
+    // pierwszy piksel
+    drawPoint(tab, x, y);
+    // oś wiodąca OX
+    if (dx > dy)
+    {
+        ai = (dy - dx) * 2;
+        bi = dy * 2;
+        d = bi - dx;
+        // pętla po kolejnych x
+        while (x != x2)
+        {
+            // test współczynnika
+            if (d >= 0)
+            {
+                x += xi;
+                y += yi;
+                d += ai;
+            }
+            else
+            {
+                d += bi;
+                x += xi;
+            }
+            drawPoint(tab, x, y);
+        }
+    }
+    // oś wiodąca OY
+    else
+    {
+        ai = (dx - dy) * 2;
+        bi = dx * 2;
+        d = bi - dy;
+        // pętla po kolejnych y
+        while (y != y2)
+        {
+            // test współczynnika
+            if (d >= 0)
+            {
+                x += xi;
+                y += yi;
+                d += ai;
+            }
+            else
+            {
+                d += bi;
+                y += yi;
+            }
+            drawPoint(tab, x, y);
+        }
+    }
+}
+
 void Dataget::computeToXY(){
-    float x,y;
-    float xLast, yLast;
+    points cords;
+    points cordsLast;
+    points cordsFirst;
     for(int angle = 0; angle < 360; angle++){
-        x = qCos(qDegreesToRadians(float(angle)))*dataToCompute[angle];
-        y = qSin(qDegreesToRadians(float(angle)))*dataToCompute[angle];
-        x = qRound(x);
-        y = qRound(y);
-        yxPOS[int(x+125)][int(y+125)] = 1;
-        yxPOS[int(x+125)][int(1+y+125)] = 1;
-        yxPOS[int(x+125)][int(2+y+125)] = 1;
-        yxPOS[int(x+125)][int(3+y+125)] = 1;
-        yxPOS[int(x+125)][int(4+y+125)] = 1;
-        yxPOS[int(x+125)][int(5+y+125)] = 1;
-        yxPOS[int(x+125)][int(y+125-1)] = 1;
 
+        cords.x = qCos(qDegreesToRadians(float(angle)))*dataToCompute[angle]+125;
+        cords.y = qSin(qDegreesToRadians(float(angle)))*dataToCompute[angle]+125;
+        if( angle == 0 ){
+            cordsLast = cords;
+            cordsFirst = cords;
+        }
+        drawLine(yxPOS, cords.x, cords.y, cordsLast.x, cordsLast.y);
+        cordsLast = setHistoryPoint(cords);
 
     }
-    for(int i = 0; i < 250; i++){
-        for (int j = 0; j < 250; j++){
-            printf("%d", yxPOS[i][j]);
+}
 
-         }
-        printf("\n");
-    }
+points Dataget::randomPoints(int tab[ARRAYH][ARRAYW], int width, int height) {
+    points cords;
+    cords.x = rand() % width;
+    cords.y = rand() % height;
+    tab[cords.x][cords.y] = 1;
+    return cords;
 }
 
 void Dataget::debugMode()
 {
-    yxPOS[50][50] = 1;
-    yxPOS[50][200] = 1;
-    yxPOS[40][125] = 1;
-    yxPOS[220][125] = 1;
-    yxPOS[200][30] = 1;
-    yxPOS[160][220] = 1;
+    points cords[6];
+    cords[0].x = 50;
+    cords[0].y = 50;
+    cords[1].x = 200;
+    cords[1].y = 30;
+    cords[2].x = 220;
+    cords[2].y = 125;
+    cords[3].x = 160;
+    cords[3].y = 220;
+    cords[4].x = 50;
+    cords[4].y = 200;
+    cords[5].x = 100;
+    cords[5].y = 125;
+    yxPOS[cords[0].x][cords[0].y] = 1;
+    yxPOS[cords[1].x][cords[1].y] = 1;
+    yxPOS[cords[2].x][cords[2].y] = 1;
+    yxPOS[cords[3].x][cords[3].y] = 1;
+    yxPOS[cords[4].x][cords[4].y] = 1;
+    yxPOS[cords[5].x][cords[5].y] = 1;
+    points Ncords, cordsLast, cordsFirst;
+    for(int i = 0; i < 6; i++){
+        Ncords = cords[i];
+        if( i == 0 ){
+            cordsLast = Ncords;
+            cordsFirst = Ncords;
+        }
+        drawLine(yxPOS, Ncords.x, Ncords.y, cordsLast.x, cordsLast.y);
+        cordsLast = setHistoryPoint(Ncords);
+    }
+        drawLine(yxPOS, cordsLast.x, cordsLast.y, cordsFirst.x, cordsFirst.y);
 }
 
 void Dataget::getScene(QGraphicsScene * scene){

@@ -6,6 +6,13 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include "defines.h"
+
+typedef struct {
+    int x = 0;
+    int y = 0;
+
+}points;
+
 class Dataget
 {
 public:
@@ -23,6 +30,11 @@ public:
     void getData(int out[ARRAYH][ARRAYW]);
     void shortData();
     void computeToXY();
+
+    void drawPoint(int tab[ARRAYH][ARRAYW], int x, int y);
+    points setHistoryPoint(points &cords);
+    void drawLine(int tab[ARRAYH][ARRAYW], const int x1, int y1, const int x2, const int y2);
+    points randomPoints(int tab[ARRAYH][ARRAYW], int width, int height);
     void debugMode();
     void DrawPlane();
     qint16 convertToInt(QChar p4,QChar p3,QChar p2,QChar p1,QChar p0);
