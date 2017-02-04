@@ -97,7 +97,8 @@ BlockingClient::BlockingClient(QWidget *parent)
     buttonBox->addButton(drawButton,  QDialogButtonBox::ActionRole);
     buttonBox->addButton(cursorToggle,  QDialogButtonBox::ActionRole);
     buttonBox->addButton(lineDraw, QDialogButtonBox::ActionRole);
-    buttonBox->addButton(debug, QDialogButtonBox::ActionRole);
+    //DEBUG MODE.
+   // buttonBox->addButton(debug, QDialogButtonBox::ActionRole);
 
     connect(getFortuneButton, SIGNAL(clicked()), this, SLOT(requestNewFortune()));
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
@@ -105,7 +106,8 @@ BlockingClient::BlockingClient(QWidget *parent)
     connect(drawButton, SIGNAL(clicked()), this, SLOT(drawPlane()));
     connect(cursorToggle, SIGNAL(clicked()), this, SLOT(drawCursors()));
     connect(lineDraw, SIGNAL(clicked()), this, SLOT(drawLine()));
-    connect(debug, SIGNAL(clicked()), this, SLOT(debugMode()));
+    //DEBUG MODE
+  //  connect(debug, SIGNAL(clicked()), this, SLOT(debugMode()));
 
     connect(&thread, SIGNAL(newFortune(QString)),
             this, SLOT(showFortune(QString)));

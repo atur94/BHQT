@@ -13,6 +13,7 @@ typedef struct {
 
 }points;
 
+enum direction{CLeft = 0, CUp = 1, CRight = 2, CDown = 3};
 class Dataget
 {
 public:
@@ -35,6 +36,9 @@ public:
     points setHistoryPoint(points &cords);
     void drawLine(int tab[ARRAYH][ARRAYW], const int x1, int y1, const int x2, const int y2);
     points randomPoints(int tab[ARRAYH][ARRAYW], int width, int height);
+    void setPoint(int tab[ARRAYH][ARRAYW], points cords);
+    int  getPoint(int tab[ARRAYH][ARRAYW], points cords);
+    points newPos(points cords, direction dir);
     void debugMode();
     void DrawPlane();
     qint16 convertToInt(QChar p4,QChar p3,QChar p2,QChar p1,QChar p0);

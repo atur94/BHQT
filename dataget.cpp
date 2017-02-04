@@ -2,7 +2,8 @@
 #include "QWidget"
 #include <string.h>
 #include "QtWidgets"
-#include <QVector>
+#include <QQueue>
+
 Dataget::Dataget()
 {
     scene = new QGraphicsScene();
@@ -262,56 +263,65 @@ void Dataget::DrawPlane(){
     }
 }
 
+void Dataget::setPoint(int tab[ARRAYH][ARRAYW], points cords)
+{
+    int x = cords.x;
+    int y = cords.y;
+
+    tab[x][y] = 1;
+}
+
+int Dataget::getPoint(int tab[ARRAYH][ARRAYW], points cords){
+    int x = cords.x;
+    int y = cords.y;
+    if(tab[x][y] == 1) return 1;
+    else return 0;
+
+}
+
+points Dataget::newPos(points cords, direction dir){
+    if(dir == CLeft){
+        cords.x--;
+        return cords;
+    }
+    else if(dir == CUp){
+        cords.y++;
+        return cords;
+    }
+    else if(dir == CRight){
+        cords.x++;
+        return cords;
+    }
+    else if(dir == CDown){
+        cords.y--;
+        return cords;
+    }
+    qDebug() << "newPos. SOmething Went wrong";
+
+}
 
 void Dataget::fillPlane(int plane[ARRAYH][ARRAYW]){
-    int copy[250][250];
-    int start = 0;
-    for(int q = 0; q < ARRAYH; q++) {
-        for(int w = 0; w < ARRAYW; w++){
-            copy[q][w] = plane[q][w];
-            //Tablica pomocnicza ktora pomaga w porownywaniu pikseli bez jej nadpisywania
-        }
-    }
-    for(int i = 0; i < ARRAYW; i++) {
-        if((start == 0) && 125>i){
-            //Sprawdzanie początku i ustawienie punktu startowego
-            if((plane[i][125])  ||(plane[i][124])
-                                ||(plane[i][123])
-                                ||(plane[i][126])
-                                ||(plane[i][127]))
-                start = !start;
-        }
-        if((start == 1) && 125<=i ){
-            if((plane[i+1][125])||(plane[i+1][124])||(plane[i+1][126])) // od polowy sprawdzanie końca
-                start = 0;
+    //ALGORYTM FLOOD-FILL Z WYKORZYSTANIEM KOLEJKI
+    points cords, cordsNew;
+
+    //USTALENIE WARTOŚCI POCZĄTKOWEJ DLA WYPEŁNIENIA
+    cords.x = 125;
+    cords.y = 125;
+    QQueue<points> queue;
+    queue.enqueue(cords);
+    while(!queue.isEmpty()){
+        qDebug() << "QUEUE ISNT EMPTY";
+        cordsNew = queue.dequeue();
+        if(getPoint(plane,cordsNew) == 0){
+            setPoint(plane, cordsNew);
+            queue.enqueue(newPos(cordsNew, CLeft));
+            queue.enqueue(newPos(cordsNew, CRight));
+            queue.enqueue(newPos(cordsNew, CDown));
+            queue.enqueue(newPos(cordsNew, CUp));
         }
 
-        if(start == 1){
-            for(int j = 126; j < ARRAYH; j++){
-                if((copy[i][j] == 1)||(copy[i+3][j] == 1)
-                                    ||(copy[i-3][j] == 1)
-                                    ||(copy[i-1][j] == 1)
-                                    ||(copy[i+1][j] == 1)
-                                    ||(copy[i+2][j] == 1)
-                                    ||(copy[i-2][j] == 1)){
-                    break;
-                }
-                plane[i][j] = 1;
-            }
-            for(int j = 125; j > 0; j--){
-                if((copy[i][j] == 1)||(copy[i+3][j] == 1)
-                                    ||(copy[i-3][j] == 1)
-                                    ||(copy[i-1][j] == 1)
-                                    ||(copy[i+1][j] == 1)
-                                    ||(copy[i+2][j] == 1)
-                                    ||(copy[i-2][j] == 1)){
-                    break;
-                }
-                plane[i][j] = 1;
-            }
-        }
     }
-    start = 0;
+
 }
 void Dataget::tabClear(int tab[ARRAYH][ARRAYW]){
     for(int i = 0; i < ARRAYH; i++)
