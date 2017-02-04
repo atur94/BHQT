@@ -232,3 +232,15 @@ int FortuneThread::getPoints(int area[ARRAYH][ARRAYW])
     return areaSum;
 }
 
+void FortuneThread::debugMode()
+{
+    dataBuffer->debugMode();
+    dataBuffer->getData(s->data);
+    qDebug() << "END GETDATA";
+    dataBuffer->fillPlane(s->data);
+    emit draw();
+    dataBuffer->tabClear(dataBuffer->yxPOS);
+}
+
+
+

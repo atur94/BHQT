@@ -85,6 +85,7 @@ public:
     void DrawPlane(int xyPOS[ARRAYH][ARRAYW]);
     void clearTab();
     int getPoints(int area[ARRAYH][ARRAYW]);
+    void debugMode();
 signals:
     void newFortune(const QString &fortune);
     void error(int socketError, const QString &message);

@@ -301,6 +301,7 @@ void BlockingClient::drawLine()
 void BlockingClient::debugMode()
 {
     qDebug() << "DebugMode" << endl;
+    thread.debugMode();
 }
 
 void BlockingClient::CursorInit(int x1,int y1,int x2, int y2)

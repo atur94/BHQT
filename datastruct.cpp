@@ -1,13 +1,14 @@
 #include "datastruct.h"
-
+#include "defines.h"
 dataStruct::dataStruct()
 {
 
 }
-void dataStruct::takeData(int tab[250][250]){
-    for(int i = 0; i < 250; i++){
-        for(int j = 0; j < 250; j++){
+void dataStruct::takeData(int tab[ARRAYH][ARRAYW]){
+    for(int i = 0; i < ARRAYH; i++){
+        for(int j = 0; j < ARRAYW; j++){
             data[i][j] = tab [i][j];
         }
     }
 }
+

@@ -111,42 +111,8 @@ void Dataget::computeToXY(){
         yxPOS[int(x+125)][int(4+y+125)] = 1;
         yxPOS[int(x+125)][int(5+y+125)] = 1;
         yxPOS[int(x+125)][int(y+125-1)] = 1;
- //       yxPOS[int(1+x+125)][int(y+125)] = 1;
-//        yxPOS[int(1+x+125)][int(1+y+125)] = 1;
-//        yxPOS[int(1+x+125)][int(2+y+125)] = 1;
-//        yxPOS[int(1+x+125)][int(3+y+125)] = 1;
- //       yxPOS[int(2+x+125)][int(y+125)] = 1;
-//        yxPOS[int(2+x+125)][int(1+y+125)] = 1;
-//        yxPOS[int(2+x+125)][int(2+y+125)] = 1;
-//        yxPOS[int(2+x+125)][int(3+y+125)] = 1;
-//        yxPOS[int(3+x+125)][int(y+125)] = 1;
-//        yxPOS[int(3+x+125)][int(1+y+125)] = 1;
-//        yxPOS[int(3+x+125)][int(2+y+125)] = 1;
-//        yxPOS[int(3+x+125)][int(3+y+125)] = 1;
-//        if(angle >= 1){
-//            if(xLast >= x){
-//                for(int q = xLast; q <= int (x); q++){
-//                    yxPOS[q][int(y)] = 1;
-//                }
-//            }else{
-//                for(int q =  int (x); q <= int (xLast); q++){
-//                    yxPOS[q][int(y)] = 1;
-//                }
-//            }
 
-//            if(yLast >= y){
-//                for(int q = y; q <= int(yLast); q++){
-//                    yxPOS[int(x)][q] = 1;
-//                }
-//            }else{
-//                for(int q = yLast; q <= int(y); q++){
-//                    yxPOS[int(x)][q] = 1;
-//                }
-//            }
 
- //       }
-//        xLast = x;
-//        yLast = y;
     }
     for(int i = 0; i < 250; i++){
         for (int j = 0; j < 250; j++){
@@ -156,6 +122,17 @@ void Dataget::computeToXY(){
         printf("\n");
     }
 }
+
+void Dataget::debugMode()
+{
+    yxPOS[50][50] = 1;
+    yxPOS[50][200] = 1;
+    yxPOS[40][125] = 1;
+    yxPOS[220][125] = 1;
+    yxPOS[200][30] = 1;
+    yxPOS[160][220] = 1;
+}
+
 void Dataget::getScene(QGraphicsScene * scene){
     this->scene = scene;
     this->scene->addRect(125,125,1,1);

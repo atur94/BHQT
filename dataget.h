@@ -23,6 +23,7 @@ public:
     void getData(int out[ARRAYH][ARRAYW]);
     void shortData();
     void computeToXY();
+    void debugMode();
     void DrawPlane();
     qint16 convertToInt(QChar p4,QChar p3,QChar p2,QChar p1,QChar p0);
     qint16 convert(QChar p);
