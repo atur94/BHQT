@@ -38,15 +38,15 @@ qint16 Dataget::convertToInt(QChar p4,QChar p3,QChar p2,QChar p1,QChar p0){
 }
 
 int Dataget::convertToAngle(int angles){
-    //6490 - 720 stopni
+    //6540 - 720 stopni
     //3245 - 360
     //  x  - 1
+    int degrees720 = 6540
 
-
-    if(angles<=3245){
+    if(angles<= degrees720/2){
         return angles = qRound(float(angles) /(3245/360)); // Obecny kąt
     }
-    if(angles>3245){
+    if(angles>degrees720/2){
         return angles = 360 - qRound(float(angles-3245) /(3245/360)); // Obecny kąt
     }
     return 0;
