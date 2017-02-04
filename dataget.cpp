@@ -41,7 +41,7 @@ int Dataget::convertToAngle(int angles){
     //6540 - 720 stopni
     //3245 - 360
     //  x  - 1
-    int degrees720 = 6540
+    int degrees720 = 6540;
 
     if(angles<= degrees720/2){
         return angles = qRound(float(angles) /(3245/360)); // Obecny kąt
@@ -319,9 +319,7 @@ void Dataget::fillPlane(int plane[ARRAYH][ARRAYW]){
             queue.enqueue(newPos(cordsNew, CDown));
             queue.enqueue(newPos(cordsNew, CUp));
         }
-
     }
-
 }
 void Dataget::tabClear(int tab[ARRAYH][ARRAYW]){
     for(int i = 0; i < ARRAYH; i++)

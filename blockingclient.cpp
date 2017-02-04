@@ -107,7 +107,7 @@ BlockingClient::BlockingClient(QWidget *parent)
     connect(cursorToggle, SIGNAL(clicked()), this, SLOT(drawCursors()));
     connect(lineDraw, SIGNAL(clicked()), this, SLOT(drawLine()));
     //DEBUG MODE
-  //  connect(debug, SIGNAL(clicked()), this, SLOT(debugMode()));
+   // connect(debug, SIGNAL(clicked()), this, SLOT(debugMode()));
 
     connect(&thread, SIGNAL(newFortune(QString)),
             this, SLOT(showFortune(QString)));
